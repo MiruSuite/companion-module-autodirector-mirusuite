@@ -1,5 +1,5 @@
 import Conf from 'conf'
-import { ModuleInstance } from '../main.js'
+import { MiruSuiteModuleInstance } from '../main.js'
 import { PresetEntity } from '../api/types.js'
 import { getGroupForInstrument, presetSortFn } from './metadata.js'
 
@@ -26,7 +26,7 @@ export interface AutoConfiguredBankMap {
  * @param bank controlId of learn button. All settings and buttons get attached to that string
  * @param devices device ids
  */
-export function setSelectedDevices(self: ModuleInstance, bank: string, devices: number[]): void {
+export function setSelectedDevices(self: MiruSuiteModuleInstance, bank: string, devices: number[]): void {
 	const autoMap: AutoConfiguredBankMap = config.get('autoConfiguredMap', {}) as AutoConfiguredBankMap
 	autoMap[bank] = {
 		buttons: autoMap[bank].buttons,
@@ -43,7 +43,7 @@ export function setSelectedDevices(self: ModuleInstance, bank: string, devices: 
  * @param bank controlId of learn button. All settings and buttons get attached to that string
  * @param instrumentGroups that should be visible for that button
  */
-export function setSelectedInstruments(self: ModuleInstance, bank: string, instrumentGroups: string[]): void {
+export function setSelectedInstruments(self: MiruSuiteModuleInstance, bank: string, instrumentGroups: string[]): void {
 	const autoMap: AutoConfiguredBankMap = config.get('autoConfiguredMap', {}) as AutoConfiguredBankMap
 	autoMap[bank] = {
 		buttons: autoMap[bank].buttons,
@@ -60,7 +60,7 @@ export function setSelectedInstruments(self: ModuleInstance, bank: string, instr
  * @param bank controlId of learn button. All settings and buttons get attached to that string
  * @param displayDeviceName if the device name should be shown
  */
-export function setDisplayDeviceName(self: ModuleInstance, bank: string, displayDeviceName: boolean): void {
+export function setDisplayDeviceName(self: MiruSuiteModuleInstance, bank: string, displayDeviceName: boolean): void {
 	const autoMap: AutoConfiguredBankMap = config.get('autoConfiguredMap', {}) as AutoConfiguredBankMap
 	autoMap[bank] = {
 		buttons: autoMap[bank].buttons,
@@ -164,7 +164,7 @@ export function isDisplayDeviceName(btn: AutoConfiguredButton): boolean {
  * @param bankId controlId of the learn button
  * @param button to add
  */
-export function addAutoButton(self: ModuleInstance, bankId: string, button: AutoConfiguredButton): void {
+export function addAutoButton(self: MiruSuiteModuleInstance, bankId: string, button: AutoConfiguredButton): void {
 	self.log('debug', 'Added auto preset button: ' + JSON.stringify(button) + ' to learning mode ' + bankId)
 	let autoMap: AutoConfiguredBankMap = config.get('autoConfiguredMap', {}) as AutoConfiguredBankMap
 	const bank = autoMap[bankId] ?? { buttons: [], devices: [] }
@@ -180,7 +180,7 @@ export function addAutoButton(self: ModuleInstance, bankId: string, button: Auto
  * @param button to remove
  * @returns the updated autoMap
  */
-function removeAutoButtonFromAnyBank(self: ModuleInstance, button: AutoConfiguredButton): AutoConfiguredBankMap {
+function removeAutoButtonFromAnyBank(self: MiruSuiteModuleInstance, button: AutoConfiguredButton): AutoConfiguredBankMap {
 	const autoMap: AutoConfiguredBankMap = config.get('autoConfiguredMap', {}) as AutoConfiguredBankMap
 	const banks = Object.keys(autoMap)
 	for (const bank of banks) {
@@ -197,7 +197,7 @@ function removeAutoButtonFromAnyBank(self: ModuleInstance, button: AutoConfigure
  * Remove all auto buttons from a all banks
  * @param self
  */
-export function clearAllAutoButtons(self: ModuleInstance): void {
+export function clearAllAutoButtons(self: MiruSuiteModuleInstance): void {
 	saveAutoConfiguredButtons(self, {})
 	self.setVariableValues({ learningMode: 'disabled' })
 }
@@ -207,7 +207,7 @@ export function clearAllAutoButtons(self: ModuleInstance): void {
  * @param self
  * @param bank controlId of the learn button
  */
-export function clearLearnedButtons(self: ModuleInstance, bank: string): void {
+export function clearLearnedButtons(self: MiruSuiteModuleInstance, bank: string): void {
 	const autoMap: AutoConfiguredBankMap = config.get('autoConfiguredMap', {}) as AutoConfiguredBankMap
 	autoMap[bank] = { buttons: [], devices: [], instrumentGroups: [], displayDeviceName: false }
 	saveAutoConfiguredButtons(self, autoMap)
@@ -218,7 +218,7 @@ export function clearLearnedButtons(self: ModuleInstance, bank: string): void {
  * @param self
  * @param autoMap
  */
-export function saveAutoConfiguredButtons(self: ModuleInstance, autoMap: AutoConfiguredBankMap): void {
+export function saveAutoConfiguredButtons(self: MiruSuiteModuleInstance, autoMap: AutoConfiguredBankMap): void {
 	config.set('autoConfiguredMap', autoMap)
 	self.setVariableValues({ autoConfiguredMap: JSON.stringify(autoMap) })
 }
@@ -227,7 +227,7 @@ export function saveAutoConfiguredButtons(self: ModuleInstance, autoMap: AutoCon
  * Update auto configured buttons from saved config
  * @param self
  */
-export function updateAutoConfiguredButtons(self: ModuleInstance): any {
+export function updateAutoConfiguredButtons(self: MiruSuiteModuleInstance): any {
 	const autoMap: AutoConfiguredBankMap = config.get('autoConfiguredMap', {}) as AutoConfiguredBankMap
 	self.setVariableValues({ autoConfiguredMap: JSON.stringify(autoMap) })
 }

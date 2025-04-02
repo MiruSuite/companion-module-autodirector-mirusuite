@@ -1,5 +1,5 @@
 {
-	"id": "mirusuite",
+	"id": "companion-module-autodirector-mirusuite",
 	"name": "MiruSuite",
 	"shortname": "MiruSuite",
 	"description": "A client for the MiruSuite automation software",
@@ -25,15 +25,6 @@
 		"entrypoint": "../dist/main.js"
 	},
 	"manufacturer": "AutoDirector",
-	"products": [
-		"MiruSuite"
-	],
-	"keywords": [
-		"MiruSuite",
-		"Automatic",
-		"PTZ",
-		"Controller",
-		"Person",
-		"Tracking"
-	]
+	"products": ["MiruSuite"],
+	"keywords": ["Automatic", "PTZ", "Switcher", "Person", "Tracking", "Panasonic", "Sony", "Canon"]
 }

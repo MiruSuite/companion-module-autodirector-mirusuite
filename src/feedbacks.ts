@@ -1,5 +1,5 @@
-import { CompanionFeedbackAdvancedEvent, DropdownChoice, combineRgb } from '@companion-module/base'
-import type { ModuleInstance } from './main.js'
+import { CompanionFeedbackAdvancedEvent, DropdownChoice } from '@companion-module/base'
+import type { MiruSuiteModuleInstance } from './main.js'
 import {
 	getDeviceSelector,
 	getFaceSelector,
@@ -26,7 +26,7 @@ import Jimp from 'jimp'
 import { getColorByInstrument } from './scripts/instrumentcolors.js'
 import { type ComponentState } from './api/types.js'
 
-export function UpdateFeedbacks(self: ModuleInstance): void {
+export function UpdateFeedbacks(self: MiruSuiteModuleInstance): void {
 	const backend = self.backend
 	const store = self.store
 	const faceChoices: DropdownChoice[] = createFaceOptions(self)
@@ -41,8 +41,8 @@ export function UpdateFeedbacks(self: ModuleInstance): void {
 			description:
 				"Is active when the device's director component is enabled. To select a device, you first need to create a device in MiruSuite and add a video input to it. This action needs a director be installed on the device.",
 			defaultStyle: {
-				bgcolor: combineRgb(0, 255, 0),
-				color: combineRgb(0, 0, 0),
+				bgcolor: 0x00ff00,
+				color: 0x000000,
 			},
 			options: [getDeviceSelector(self, videoDeviceChoices)],
 			callback: async (feedback) => {
@@ -74,18 +74,18 @@ export function UpdateFeedbacks(self: ModuleInstance): void {
 				}
 				if (state == 'RUNNING') {
 					return {
-						bgcolor: combineRgb(0, 255, 0),
-						color: combineRgb(0, 0, 0),
+						bgcolor: 0x00ff00,
+						color: 0x000000,
 					}
 				} else if (state == 'WARN' || state == 'ERROR') {
 					return {
-						bgcolor: combineRgb(255, 255, 0),
-						color: combineRgb(0, 0, 0),
+						bgcolor: 0xffff00,
+						color: 0x000000,
 					}
 				} else {
 					return {
-						bgcolor: combineRgb(0, 0, 0),
-						color: combineRgb(255, 255, 255),
+						bgcolor: 0x000000,
+						color: 0xffffff,
 					}
 				}
 			},
@@ -125,8 +125,8 @@ export function UpdateFeedbacks(self: ModuleInstance): void {
 						.getBase64Async('image/png')
 					if (active) {
 						return {
-							bgcolor: combineRgb(255, 0, 0),
-							color: combineRgb(0, 0, 0),
+							bgcolor: 0xff0000,
+							color: 0x000000,
 							png64,
 						}
 					} else {
@@ -137,11 +137,11 @@ export function UpdateFeedbacks(self: ModuleInstance): void {
 				} else {
 					if (mode == feedback.options.mode) {
 						return {
-							bgcolor: combineRgb(255, 0, 0),
+							bgcolor: 0xff0000,
 						}
 					} else {
 						return {
-							bgcolor: combineRgb(0, 0, 0),
+							bgcolor: 0x000000,
 						}
 					}
 				}
@@ -153,8 +153,8 @@ export function UpdateFeedbacks(self: ModuleInstance): void {
 			description:
 				'Check if the shot size is set to a specific value. To select a device, you first need to create a device in MiruSuite and add a video input to it. This action needs a head trracking director be installed on the device.',
 			defaultStyle: {
-				bgcolor: combineRgb(255, 0, 0),
-				color: combineRgb(0, 0, 0),
+				bgcolor: 0xff0000,
+				color: 0x000000,
 			},
 			options: [
 				{
@@ -175,7 +175,7 @@ export function UpdateFeedbacks(self: ModuleInstance): void {
 				const device = store.getDeviceById(deviceId)
 				const headTrackingDirector = device?.components['headTrackingDirector']
 				if (headTrackingDirector) {
-					return headTrackingDirector.targetShotSize === feedback.options.size
+					return headTrackingDirector.targetShotSize === feedback.options.sizef
 				}
 				return false
 			},
@@ -186,8 +186,8 @@ export function UpdateFeedbacks(self: ModuleInstance): void {
 			description:
 				'Check if a specific preset is active. To select a device, you first need to create a device in MiruSuite and add a video input to it.',
 			defaultStyle: {
-				bgcolor: combineRgb(255, 0, 0),
-				color: combineRgb(255, 255, 255),
+				bgcolor: 0xff0000,
+				color: 0xfffff,
 			},
 			options: [getPresetSelector(self, presetChoices)],
 			callback: async (feedback) => {
@@ -208,21 +208,21 @@ export function UpdateFeedbacks(self: ModuleInstance): void {
 				self.log('debug', 'Learn Mode feedback: ' + learnMode + ' ' + numberText)
 				if (learnMode) {
 					return {
-						bgcolor: combineRgb(1, 43, 252), // blue
-						color: combineRgb(255, 255, 255),
+						bgcolor: 0x012bfc, // blue
+						color: 0xfffff,
 						text: 'Learning Save? ' + numberText,
 					}
 				} else {
 					if (learnedButtonsCount < filteredPresetsCount) {
 						return {
-							bgcolor: combineRgb(230, 215, 0), // yellow
-							color: combineRgb(255, 255, 255),
+							bgcolor: 0xe6d700, // yellow
+							color: 0xfffff,
 							text: 'Learn Presets ' + numberText,
 						}
 					} else {
 						return {
-							bgcolor: combineRgb(0, 40, 0),
-							color: combineRgb(255, 255, 255),
+							bgcolor: 0x002800,
+							color: 0xfffff,
 							text: 'Learn Presets ' + numberText,
 						}
 					}
@@ -253,22 +253,22 @@ export function UpdateFeedbacks(self: ModuleInstance): void {
 						if (bank == learningMode) {
 							// learned for this bank
 							return {
-								bgcolor: combineRgb(0, 255, 0),
-								color: combineRgb(0, 0, 0),
+								bgcolor: 0x00ff00,
+								color: 0x000000,
 								text: '#' + index,
 							}
 						} else {
 							// learned for another bank
 							return {
-								bgcolor: combineRgb(255, 255, 0),
-								color: combineRgb(0, 0, 0),
+								bgcolor: 0xffff00,
+								color: 0x000000,
 								text: 'Overwrite?',
 							}
 						}
 					} else {
 						return {
-							bgcolor: combineRgb(255, 0, 0),
-							color: combineRgb(255, 255, 255),
+							bgcolor: 0xff0000,
+							color: 0xfffff,
 							text: 'Learning',
 						}
 					}
@@ -284,15 +284,15 @@ export function UpdateFeedbacks(self: ModuleInstance): void {
 								if (live) {
 									// dark red bg, grey text
 									return {
-										bgcolor: combineRgb(100, 0, 0),
-										color: combineRgb(150, 150, 150),
+										bgcolor: 0x640000,
+										color: 0x969696,
 										text: presetLabel,
 									}
 								} else {
 									// red bg, white text
 									return {
-										bgcolor: combineRgb(255, 0, 0),
-										color: combineRgb(255, 255, 255),
+										bgcolor: 0xff0000,
+										color: 0xfffff,
 										text: presetLabel,
 									}
 								}
@@ -301,14 +301,14 @@ export function UpdateFeedbacks(self: ModuleInstance): void {
 									// black bg, grey text
 									return {
 										bgcolor: getColorByInstrument(preset?.metadata?.instrument ?? 'Unknown'),
-										color: combineRgb(140, 140, 140),
+										color: 0x8c8c8c,
 										text: presetLabel,
 									}
 								} else {
 									// black bg, white text
 									return {
 										bgcolor: getColorByInstrument(preset?.metadata?.instrument ?? 'Unknown'),
-										color: combineRgb(255, 255, 255),
+										color: 0xfffff,
 										text: presetLabel,
 									}
 								}
@@ -326,8 +326,8 @@ export function UpdateFeedbacks(self: ModuleInstance): void {
 			description:
 				'Check if a specific device is live. To select a device, you first need to create a device in MiruSuite and add a video input to it.',
 			defaultStyle: {
-				bgcolor: combineRgb(255, 0, 0),
-				color: combineRgb(255, 255, 255),
+				bgcolor: 0xff0000,
+				color: 0xfffff,
 			},
 			options: [getDeviceSelector(self, videoDeviceChoices)],
 			callback: async (feedback) => {
@@ -340,8 +340,8 @@ export function UpdateFeedbacks(self: ModuleInstance): void {
 			type: 'boolean',
 			description: 'Check if a specific input is live.',
 			defaultStyle: {
-				bgcolor: combineRgb(255, 0, 0),
-				color: combineRgb(255, 255, 255),
+				bgcolor: 0xff0000,
+				color: 0xfffff,
 			},
 			options: [
 				{
@@ -360,8 +360,8 @@ export function UpdateFeedbacks(self: ModuleInstance): void {
 			type: 'boolean',
 			description: 'Check if AutoCut is running.',
 			defaultStyle: {
-				bgcolor: combineRgb(255, 0, 0),
-				color: combineRgb(255, 255, 255),
+				bgcolor: 0xff0000,
+				color: 0xfffff,
 			},
 			options: [],
 			callback: (_) => {
@@ -378,8 +378,8 @@ async function displayLOGO(feedback: CompanionFeedbackAdvancedEvent) {
 	if (png64 == undefined) {
 		return {
 			text: 'Auto Preset',
-			bgcolor: combineRgb(0, 0, 0),
-			color: combineRgb(255, 255, 255),
+			bgcolor: 0x000000,
+			color: 0xfffff,
 		}
 	} else {
 		return {

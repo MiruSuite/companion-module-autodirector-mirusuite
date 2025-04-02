@@ -1,6 +1,6 @@
 import { DropdownChoice } from '@companion-module/base'
 import { ShotSize, TrackingMode } from './api/types.js'
-import type { ModuleInstance } from './main.js'
+import type { MiruSuiteModuleInstance } from './main.js'
 import {
 	createVideoDeviceOptions,
 	getDeviceSelector,
@@ -22,7 +22,7 @@ import {
 	setDisplayDeviceName,
 } from './scripts/autolearning.js'
 
-export function UpdateActions(self: ModuleInstance): void {
+export function UpdateActions(self: MiruSuiteModuleInstance): void {
 	const backend = self.backend
 	const store = self.store
 	const faceChoices: DropdownChoice[] = createFaceOptions(self)
@@ -34,8 +34,7 @@ export function UpdateActions(self: ModuleInstance): void {
 	self.setActionDefinitions({
 		setShotSize: {
 			name: 'Set Shot Size',
-			description:
-				'Set the shot size for a device. To select a device, you first need to create a device in MiruSuite and add a video input to it.',
+			description: 'Set the shot size for a device.',
 			options: [
 				{
 					id: 'size',
@@ -61,7 +60,7 @@ export function UpdateActions(self: ModuleInstance): void {
 		toggleDirector: {
 			name: 'Toggle Director',
 			description:
-				'Enables/disables the director. Use this if you want to temporarily disable tracking. To select a device, you first need to create a device in MiruSuite and add a video input to it. This action needs a director to be installed on the device.',
+				'Enables/disables the director. Use this if you want to temporarily disable tracking. This action needs a director to be installed on the device.',
 			options: [getDeviceSelector(self, videoDeviceOptions)],
 			async callback(event) {
 				const deviceId = Number(event.options.deviceId)
@@ -73,7 +72,7 @@ export function UpdateActions(self: ModuleInstance): void {
 		setDirector: {
 			name: 'Enable/Disable Director',
 			description:
-				'Enable or disable the director for a device. To select a device, you first need to create a device in MiruSuite and add a video input to it. This action needs a director to be installed on the device.',
+				'Enable or disable the director for a device. This action needs a director to be installed on the device.',
 			options: [
 				getDeviceSelector(self, videoDeviceOptions),
 				{
@@ -98,7 +97,7 @@ export function UpdateActions(self: ModuleInstance): void {
 		setTrackingMode: {
 			name: 'Set Tracking Mode',
 			description:
-				'Set the tracking mode for a device. The person option is only used in SINGLE mode. To select a device, you first need to create a device in MiruSuite and add a video input to it. This action needs a head tracking director to be installed on the device.',
+				'Set the tracking mode for a device. The person option is only used in SINGLE mode. This action needs a head tracking director to be installed on the device.',
 			options: [
 				{
 					id: 'mode',
@@ -126,7 +125,7 @@ export function UpdateActions(self: ModuleInstance): void {
 		learnTargetFace: {
 			name: 'Learn Target Face',
 			description:
-				'Learn the face of the current target person. Use this action to teach the director the face of a person. To select a device, you first need to create a device in MiruSuite and add a video input to it. This action needs a person tracker to be installed on the device.',
+				'Learn the face of the current target person. Use this action to teach MiruSuite the face of a person. This action needs a person tracker to be installed on the device.',
 			options: [getDeviceSelector(self, videoDeviceOptions)],
 			async callback(event) {
 				const deviceId = Number(event.options.deviceId)
@@ -137,8 +136,7 @@ export function UpdateActions(self: ModuleInstance): void {
 		},
 		playPreset: {
 			name: 'Play Preset',
-			description:
-				'Play a preset. To select a device, you first need to create a device in MiruSuite and add a video input to it.',
+			description: 'Play a preset. ',
 			options: [getPresetSelector(self, presetChoices)],
 			async callback(event) {
 				const presetId = Number(event.options.preset)
@@ -149,7 +147,7 @@ export function UpdateActions(self: ModuleInstance): void {
 		playActivePreset: {
 			name: 'Play Active Preset',
 			description:
-				'Re-apply the active preset of a camera. Use this action if you want to return a camera to its active preset if it has moved away. To select a device, you first need to create a device in MiruSuite and add a video input to it.',
+				'Re-apply the active preset of a camera. Use this action if you want to return a camera to its active preset if it has moved away.',
 			options: [getDeviceSelector(self, videoDeviceOptions)],
 			async callback(event) {
 				const deviceId = Number(event.options.deviceId)
@@ -282,7 +280,7 @@ export function UpdateActions(self: ModuleInstance): void {
 		triggerMovement: {
 			name: 'Trigger move',
 			description:
-				'Execute a preset or random move on an auto-move director. To select a device, you first need to create a device in MiruSuite and add a video input to it. This action needs an auto-move director to be installed on the device.',
+				'Execute a preset or random move on an auto-move director. This action needs an auto-move director to be installed on the device.',
 			options: [
 				getDeviceSelector(self, videoDeviceOptions),
 				{
@@ -309,8 +307,7 @@ export function UpdateActions(self: ModuleInstance): void {
 		},
 		triggerReturnToHome: {
 			name: 'Return to home',
-			description:
-				'Return device to home position. To select a device, you first need to create a device in MiruSuite and add a video input to it. This action needs a PTZ controller to be installed on the device.',
+			description: 'Return device to home position. This action needs a PTZ controller to be installed on the device.',
 			options: [getDeviceSelector(self, videoDeviceOptions)],
 			async callback(event) {
 				const deviceId = Number(event.options.deviceId)
@@ -320,7 +317,7 @@ export function UpdateActions(self: ModuleInstance): void {
 		exitSteadyMode: {
 			name: 'Exit steady mode',
 			description:
-				'Exit steady mode of device. To select a device, you first need to create a device in MiruSuite and add a video input to it. This action needs a head tracking director to be installed on the device.',
+				'Exit steady mode of device. This action needs a head tracking director to be installed on the device.',
 			options: [getDeviceSelector(self, videoDeviceOptions)],
 			async callback(event) {
 				const deviceId = Number(event.options.deviceId)
@@ -330,7 +327,7 @@ export function UpdateActions(self: ModuleInstance): void {
 		stopAutoMove: {
 			name: 'Stop move',
 			description:
-				'Stop auto-movement of device. To select a device, you first need to create a device in MiruSuite and add a video input to it. This action needs an auto-move director to be installed on the device.',
+				'Stop auto-movement of device. This action needs an auto-move director to be installed on the device.',
 			options: [getDeviceSelector(self, videoDeviceOptions)],
 			async callback(event) {
 				const deviceId = Number(event.options.deviceId)
@@ -339,10 +336,41 @@ export function UpdateActions(self: ModuleInstance): void {
 		},
 		toggleAutoCut: {
 			name: 'Toggle Auto Cut',
-			description: 'Enable or disable Auto cut. You first need to correctly setup AutoCut in MiruSuite.',
-			options: [],
-			callback: async (_) => {
-				await backend?.toggleAutoCut()
+			description: 'Enable, disable or toggle AutoCut. You first need to correctly setup AutoCut in MiruSuite.',
+			options: [
+				{
+					id: 'mode',
+					label: 'Mode (on/off/toggle)',
+					type: 'dropdown',
+					choices: [
+						{
+							id: 'on',
+							label: 'On',
+						},
+						{
+							id: 'off',
+							label: 'Off',
+						},
+						{
+							id: 'toggle',
+							label: 'Toggle',
+						},
+					],
+					default: '',
+				},
+			],
+			callback: async (event) => {
+				switch (event.options.mode) {
+					case 'on':
+						await backend?.setAutoCut(true)
+						break
+					case 'off':
+						await backend?.setAutoCut(false)
+						break
+					case 'toggle':
+						await backend?.toggleAutoCut()
+						break
+				}
 			},
 		},
 		cutToInput: {

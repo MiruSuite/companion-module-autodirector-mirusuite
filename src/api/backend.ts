@@ -1,14 +1,14 @@
 /* eslint-disable n/no-unsupported-features/node-builtins */
 import Jimp from 'jimp'
 import { InstanceStatus } from '@companion-module/base'
-import { ModuleInstance } from '../main.js'
+import { MiruSuiteModuleInstance } from '../main.js'
 import { getComponentOfType } from '../scripts/helpers.js'
 import createClient, { type Client } from 'openapi-fetch'
 import { paths } from './openapi.js'
 import type { ActivePreset, Device, FaceIdEntity, PresetEntity, ShotSize, TrackingMode } from './types.js'
 
 export default class Backend {
-	private self: ModuleInstance
+	private self: MiruSuiteModuleInstance
 	private baseUrl: string | undefined = undefined
 	private _client: Client<paths> | undefined = undefined
 
@@ -19,7 +19,7 @@ export default class Backend {
 		return this._client
 	}
 
-	constructor(self: ModuleInstance) {
+	constructor(self: MiruSuiteModuleInstance) {
 		this.self = self
 	}
 
@@ -207,6 +207,10 @@ export default class Backend {
 	async isAutoCutRunning(): Promise<boolean> {
 		const response = await this.client.GET('/api/autocut')
 		return response.data?.running ?? false
+	}
+
+	async setAutoCut(activate: boolean): Promise<void> {
+		await this.client.PUT(activate ? '/api/autocut/start' : '/api/autocut/stop')
 	}
 
 	async toggleAutoCut(): Promise<void> {

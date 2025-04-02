@@ -1,5 +1,5 @@
 import { CompanionPresetDefinitions, DropdownChoice, combineRgb } from '@companion-module/base'
-import { ModuleInstance } from './main.js'
+import { MiruSuiteModuleInstance } from './main.js'
 import type { ShotSize, TrackingMode } from './api/types.js'
 import {
 	createVideoDeviceOptions,
@@ -8,7 +8,7 @@ import {
 	getPresetChoices,
 } from './scripts/helpers.js'
 
-export function UpdatePresets(self: ModuleInstance): void {
+export function UpdatePresets(self: MiruSuiteModuleInstance): void {
 	const faceChoices: DropdownChoice[] = createFaceOptions(self)
 	const videoDevices = self.store.getVideoDevices()
 	const videoDeviceChoices: DropdownChoice[] = createVideoDeviceOptions(videoDevices)
@@ -631,7 +631,9 @@ function addTriggerAutoCut(presets: CompanionPresetDefinitions) {
 				down: [
 					{
 						actionId: 'toggleAutoCut',
-						options: {},
+						options: {
+							mode: 'toggle',
+						},
 					},
 				],
 				up: [],

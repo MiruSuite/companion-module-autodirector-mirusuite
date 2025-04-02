@@ -1,10 +1,10 @@
-import { ModuleInstance } from '../main.js'
+import { MiruSuiteModuleInstance } from '../main.js'
 import type { ActivePreset, Device, FaceIdEntity, PresetEntity } from '../api/types.js'
 import { getDirectorType, getInputComponentType } from './helpers.js'
 import Backend from '../api/backend.js'
 
 export class Store {
-	private self: ModuleInstance
+	private self: MiruSuiteModuleInstance
 	private devices: Device[] = []
 	private activePresetMap: { [name: string]: ActivePreset } = {}
 	private presets: PresetEntity[] = []
@@ -12,7 +12,7 @@ export class Store {
 	private faces: FaceIdEntity[] = []
 	private autoCutEnabled = false
 
-	constructor(self: ModuleInstance) {
+	constructor(self: MiruSuiteModuleInstance) {
 		this.self = self
 	}
 

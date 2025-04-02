@@ -10,7 +10,7 @@ import setupEventHandler from './scripts/eventhandler.js'
 import { updateAutoConfiguredButtons } from './scripts/autolearning.js'
 import { Store } from './scripts/store.js'
 
-export class ModuleInstance extends InstanceBase<ModuleConfig> {
+export class MiruSuiteModuleInstance extends InstanceBase<ModuleConfig> {
 	config!: ModuleConfig // Setup in init()
 
 	backend: Backend | null = null
@@ -28,7 +28,6 @@ export class ModuleInstance extends InstanceBase<ModuleConfig> {
 		this.updateVariableDefinitions() // export variable definitions
 		try {
 			await this.updateConfiguration()
-			this.updateStatus(InstanceStatus.Ok)
 			setupEventHandler(this, config.host, config.port)
 		} catch (e) {
 			this.log('error', 'Error updating configuration - ' + e)
@@ -62,9 +61,12 @@ export class ModuleInstance extends InstanceBase<ModuleConfig> {
 			await this.store.loadLiveInputs()
 			await this.store.loadAutoCutEnabled()
 			updateAutoConfiguredButtons(this)
+			this.updateStatus(InstanceStatus.Ok)
 		} catch (error) {
 			this.log('error', 'Error fetching available fields - ' + error)
 			offlineMode = true
+			this.log('warn', 'Running in offline mode')
+			this.updateStatus(InstanceStatus.ConnectionFailure)
 		}
 		this.setVariableValues({
 			offlineMode: JSON.stringify(offlineMode),
@@ -108,4 +110,4 @@ export class ModuleInstance extends InstanceBase<ModuleConfig> {
 	}
 }
 
-runEntrypoint(ModuleInstance, UpgradeScripts)
+runEntrypoint(MiruSuiteModuleInstance, UpgradeScripts)

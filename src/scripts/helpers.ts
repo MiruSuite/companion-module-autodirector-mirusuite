@@ -1,6 +1,6 @@
 import { DropdownChoice } from '@companion-module/base'
 import type { ComponentFeedback, ComponentId, Device, PresetEntity } from '../api/types.js'
-import { ModuleInstance } from '../main.js'
+import { MiruSuiteModuleInstance } from '../main.js'
 import { getInstrumentGroups } from './metadata.js'
 export type DeviceId2SwitcherInput = { [key: number]: string }
 
@@ -9,7 +9,7 @@ export type DeviceId2SwitcherInput = { [key: number]: string }
  * @param self
  * @returns list of available faces
  */
-export function createFaceOptions(self: ModuleInstance): DropdownChoice[] {
+export function createFaceOptions(self: MiruSuiteModuleInstance): DropdownChoice[] {
 	const faces = self.store.getFaces()
 	const faceChoices: { id: number; label: string }[] = []
 	for (const face of faces) {
@@ -68,7 +68,10 @@ function onlyUnique(value: any, index: any, array: any) {
 	return array.indexOf(value) === index
 }
 
-export function getPresetChoices(self: ModuleInstance, videoDeviceChoices: DropdownChoice[]): DropdownChoice[] {
+export function getPresetChoices(
+	self: MiruSuiteModuleInstance,
+	videoDeviceChoices: DropdownChoice[],
+): DropdownChoice[] {
 	try {
 		const presets = self.store.getPresets()
 		presets.sort((a, b) => {
@@ -94,7 +97,7 @@ export function getPresetChoices(self: ModuleInstance, videoDeviceChoices: Dropd
 	}
 }
 
-export function getPresetSelector(self: ModuleInstance, presetChoices: DropdownChoice[]): any {
+export function getPresetSelector(self: MiruSuiteModuleInstance, presetChoices: DropdownChoice[]): any {
 	const offlineMode = self.getVariableValue('offlineMode') === 'true'
 	if (offlineMode) {
 		return {
@@ -117,7 +120,7 @@ export function getPresetSelector(self: ModuleInstance, presetChoices: DropdownC
 }
 
 export function getDeviceSelector(
-	self: ModuleInstance,
+	self: MiruSuiteModuleInstance,
 	videoDeviceChoices: DropdownChoice[],
 	multi = false,
 	title = 'Device',
@@ -133,6 +136,7 @@ export function getDeviceSelector(
 			type: 'textinput',
 			label: title + suffix,
 			default: '',
+			tooltip: 'To select a device, you first need to create a device in MiruSuite and add a video input to it.',
 		}
 	} else {
 		return {
@@ -141,11 +145,13 @@ export function getDeviceSelector(
 			label: title,
 			default: videoDeviceChoices[0]?.id ?? -1,
 			choices: videoDeviceChoices,
+			tooltip:
+				'You can select multiple devices. To make a device available, you first need to create a device in MiruSuite and add a video input to it.',
 		}
 	}
 }
 
-export function getFaceSelector(self: ModuleInstance, faceChoices: DropdownChoice[]): any {
+export function getFaceSelector(self: MiruSuiteModuleInstance, faceChoices: DropdownChoice[]): any {
 	const offlineMode = self.getVariableValue('offlineMode') === 'true'
 	if (offlineMode) {
 		return {
@@ -181,10 +187,11 @@ export function getInstrumentGroupSelector(): any {
 		label: 'Instrument groups',
 		default: ['All'],
 		choices: instrumentGroupChoices,
+		tooltip: 'If you like to filter for available instrument groups, select them here.',
 	}
 }
 
-export function isPresetActive(self: ModuleInstance, targetPresetId: number): boolean {
+export function isPresetActive(self: MiruSuiteModuleInstance, targetPresetId: number): boolean {
 	for (const key in self.store.getActivePresetMap()) {
 		if (self.store.getActivePresetMap()[key].id === targetPresetId) {
 			return true
@@ -194,7 +201,7 @@ export function isPresetActive(self: ModuleInstance, targetPresetId: number): bo
 }
 
 export function isPresetLive(
-	self: ModuleInstance,
+	self: MiruSuiteModuleInstance,
 	deviceId2SwitcherInput: DeviceId2SwitcherInput,
 	presets: PresetEntity[],
 	targetPresetId: number,
@@ -211,7 +218,7 @@ export function isPresetLive(
 }
 
 export function isDeviceLive(
-	self: ModuleInstance,
+	self: MiruSuiteModuleInstance,
 	deviceId2SwitcherInput: DeviceId2SwitcherInput,
 	deviceId: number,
 ): boolean {
@@ -219,11 +226,11 @@ export function isDeviceLive(
 	return switcherInput !== '-1' && self.store.getLiveInputs().includes(switcherInput)
 }
 
-export function isInputLive(self: ModuleInstance, switcherInput: string): boolean {
+export function isInputLive(self: MiruSuiteModuleInstance, switcherInput: string): boolean {
 	return self.store.getLiveInputs().includes(switcherInput)
 }
 
-export function getDeviceIdToSwitcherInputMap(self: ModuleInstance): DeviceId2SwitcherInput {
+export function getDeviceIdToSwitcherInputMap(self: MiruSuiteModuleInstance): DeviceId2SwitcherInput {
 	const deviceId2SwitcherInput: DeviceId2SwitcherInput = {}
 	for (const device of self.store.getVideoDevices()) {
 		deviceId2SwitcherInput[device.id ?? -1] = device.switcherInput ?? '-1'

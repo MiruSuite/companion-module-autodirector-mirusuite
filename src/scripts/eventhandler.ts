@@ -1,10 +1,10 @@
 import { type GUIUpdate } from '../api/types.js'
 import EventSource from 'eventsource'
-import { ModuleInstance } from '../main.js'
+import { MiruSuiteModuleInstance } from '../main.js'
 
 let evtSource: { onmessage: (event: any) => void; close: () => void } | null = null
 
-export default function setupEventHandler(self: ModuleInstance, baseUrl: string, port: number): void {
+export default function setupEventHandler(self: MiruSuiteModuleInstance, baseUrl: string, port: number): void {
 	baseUrl = baseUrl.trim()
 	if (baseUrl === 'localhost') {
 		baseUrl = '127.0.0.1'
