@@ -222,7 +222,7 @@ export function isDeviceLive(
 	deviceId2SwitcherInput: DeviceId2SwitcherInput,
 	deviceId: number,
 ): boolean {
-	const switcherInput = deviceId2SwitcherInput[deviceId] ?? -1
+	const switcherInput = deviceId2SwitcherInput[deviceId] ?? '-1'
 	return switcherInput !== '-1' && self.store.getLiveInputs().includes(switcherInput)
 }
 
@@ -269,9 +269,12 @@ export function getInputComponentType(device: Device): 'AUDIO' | 'VIDEO' | undef
 	else return 'VIDEO'
 }
 
-export function getDirectorType(device: Device): 'DIRECTOR_HEAD_TRACKING' | 'DIRECTOR_AUTO_MOVE' | undefined {
+export function getDirectorType(
+	device: Device,
+): 'DIRECTOR_HEAD_TRACKING' | 'DIRECTOR_AUTO_MOVE' | 'DIRECTOR_LECTURE' | undefined {
 	const directorComponent = getComponentOfType(device, 'DIRECTOR')
 	if (directorComponent === undefined) return undefined
 	else if (directorComponent === 'DIRECTOR_HEAD_TRACKING') return 'DIRECTOR_HEAD_TRACKING'
+	else if (directorComponent === 'DIRECTOR_LECTURE') return 'DIRECTOR_LECTURE'
 	else return 'DIRECTOR_AUTO_MOVE'
 }

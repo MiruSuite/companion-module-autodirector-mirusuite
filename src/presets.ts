@@ -26,7 +26,11 @@ export function UpdatePresets(self: MiruSuiteModuleInstance): void {
 	for (const choice of videoDeviceChoices) {
 		const deviceId = Number(choice.id)
 		const videoDevice = self.store.getDeviceById(deviceId)
-		if (videoDevice?.components?.autoMoveDirector != null || videoDevice?.components?.headTrackingDirector != null) {
+		if (
+			videoDevice?.components?.autoMoveDirector != null ||
+			videoDevice?.components?.headTrackingDirector != null ||
+			videoDevice?.components?.lectureDirector != null
+		) {
 			toggleDirectorPreset(presets, videoDeviceChoices, deviceId)
 			enableDirectorPreset(presets, videoDeviceChoices, deviceId)
 			disableDirectorPreset(presets, videoDeviceChoices, deviceId)
@@ -47,6 +51,9 @@ export function UpdatePresets(self: MiruSuiteModuleInstance): void {
 				addTrackingModePreset(presets, 'SINGLE', faceChoices, videoDeviceChoices, deviceId)
 			}
 			addLearnTargetFacePreset(presets, videoDeviceChoices, deviceId)
+		}
+		if (videoDevice?.components?.lectureDirector != null) {
+			addExitSteadyModePreset(presets, videoDeviceChoices, deviceId)
 		}
 		addReturnToHomeButton(presets, videoDeviceChoices, deviceId)
 		addReApplyPreset(presets, videoDeviceChoices, deviceId)

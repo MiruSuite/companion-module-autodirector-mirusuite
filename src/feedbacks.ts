@@ -50,6 +50,7 @@ export function UpdateFeedbacks(self: MiruSuiteModuleInstance): void {
 				const device = store.getDeviceById(deviceId)
 				return (
 					device?.feedback['DIRECTOR_HEAD_TRACKING']?.state === 'RUNNING' ||
+					device?.feedback['DIRECTOR_LECTURE']?.state === 'RUNNING' ||
 					device?.feedback['DIRECTOR_AUTO_MOVE']?.state === 'RUNNING'
 				)
 			},
@@ -71,6 +72,10 @@ export function UpdateFeedbacks(self: MiruSuiteModuleInstance): void {
 				const autoMoveDirector = device?.feedback['DIRECTOR_AUTO_MOVE']
 				if (autoMoveDirector) {
 					state = autoMoveDirector.state
+				}
+				const lectureDirector = device?.feedback['DIRECTOR_LECTURE']
+				if (lectureDirector) {
+					state = lectureDirector.state
 				}
 				if (state == 'RUNNING') {
 					return {
