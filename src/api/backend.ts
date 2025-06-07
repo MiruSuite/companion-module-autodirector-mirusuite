@@ -23,7 +23,7 @@ export default class Backend {
 		this.self = self
 	}
 
-	async setup(serverIP: string, serverPort: number): Promise<void> {
+	async setup(serverIP: string, serverPort: number, username: string = '', password: string = ''): Promise<void> {
 		this.self.updateStatus(InstanceStatus.Connecting)
 		try {
 			serverIP = serverIP.trim()
@@ -42,13 +42,24 @@ export default class Backend {
 				this.self.updateStatus(InstanceStatus.Ok)
 				return response
 			}
+			let headers = undefined
+			if (username && password) {
+				headers = {
+					'Content-Type': 'application/json',
+					Accept: 'application/json',
+					Authorization: 'Basic ' + Buffer.from(username + ':' + password).toString('base64'),
+				}
+			} else {
+				headers = {
+					'Content-Type': 'application/json',
+					Accept: 'application/json',
+				}
+			}
+
 			this._client = createClient<paths>({
 				baseUrl: this.baseUrl,
 				fetch: checkedFetch,
-				headers: {
-					'Content-Type': 'application/json',
-					Accept: 'application/json',
-				},
+				headers: headers,
 			})
 			this.self.log('debug', 'Backend setup complete')
 		} catch (error) {
