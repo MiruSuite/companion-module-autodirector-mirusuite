@@ -3,6 +3,8 @@ import { Regex, type SomeCompanionConfigField } from '@companion-module/base'
 export interface ModuleConfig {
 	host: string
 	port: number
+	username: string
+	password: string
 }
 
 export function GetConfigFields(): SomeCompanionConfigField[] {
@@ -25,6 +27,22 @@ export function GetConfigFields(): SomeCompanionConfigField[] {
 			min: 1,
 			max: 65535,
 			default: 8080,
+		},
+		{
+			type: 'textinput',
+			id: 'username',
+			label: 'Username',
+			tooltip: 'Username for authentication with MiruSuite. Leave empty if not required.',
+			width: 8,
+			default: '',
+		},
+		{
+			type: 'textinput',
+			id: 'password',
+			label: 'Password',
+			tooltip: 'Password for authentication with MiruSuite. Leave empty if not required.',
+			width: 8,
+			default: '',
 		},
 	]
 }

@@ -24,7 +24,7 @@ export class MiruSuiteModuleInstance extends InstanceBase<ModuleConfig> {
 		this.log('debug', 'Initializing')
 		this.config = config
 		this.backend = new Backend(this)
-		await this.backend.setup(config.host, config.port)
+		await this.backend.setup(config.host, config.port, config.username, config.password)
 		this.updateVariableDefinitions() // export variable definitions
 		try {
 			await this.updateConfiguration()
