@@ -1,0 +1,52 @@
+{
+	"name": "mirusuite-companion-module",
+	"version": "1.0.0",
+	"main": "dist/main.js",
+	"type": "module",
+	"scripts": {
+		"postinstall": "husky",
+		"format": "prettier -w .",
+		"package": "yarn build && companion-module-build",
+		"build": "rimraf dist && yarn run build:main && yarn run copyassets",
+		"build:main": "tsc -p tsconfig.build.json",
+		"dev": "yarn run copyassets && tsc -p tsconfig.build.json --watch",
+		"lint:raw": "eslint",
+		"lint": "yarn run lint:raw .",
+		"generate-api": "npx openapi-typescript src/api/openapi.json --output src/api/openapi.d.ts",
+		"copyassets": "copyfiles -u 1 src/api/openapi.json src/static/icon.png dist/"
+	},
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/bitfocus/companion-module-autodirector-mirusuite"
+	},
+	"dependencies": {
+		"@companion-module/base": "~1.11.3",
+		"conf": "^13.1.0",
+		"eventsource": "^2.0.2",
+		"jimp": "^0.22.12",
+		"openapi-fetch": "^0.13.5"
+	},
+	"devDependencies": {
+		"@companion-module/tools": "^2.2.2",
+		"@types/jest": "^29.5.14",
+		"copyfiles": "^2.4.1",
+		"eslint": "^9.23.0",
+		"husky": "^9.1.7",
+		"lint-staged": "^15.5.0",
+		"openapi-typescript": "^7.6.1",
+		"prettier": "^3.5.3",
+		"typescript": "^5.8.2",
+		"typescript-eslint": "^8.28.0"
+	},
+	"prettier": "@companion-module/tools/.prettierrc.json",
+	"lint-staged": {
+		"*.{css,json,md,scss}": [
+			"prettier --write"
+		],
+		"*.{ts,tsx,js,jsx}": [
+			"yarn lint:raw --fix"
+		]
+	},
+	"packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610"
+}
