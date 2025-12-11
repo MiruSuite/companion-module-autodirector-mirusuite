@@ -628,16 +628,30 @@ function addReturnToHomeButton(
 	}
 }
 
-function addMoveTargetButtonPresets(presets: CompanionPresetDefinitions, videoDeviceChoices: DropdownChoice[], deviceId: number) {
+function addMoveTargetButtonPresets(
+	presets: CompanionPresetDefinitions,
+	videoDeviceChoices: DropdownChoice[],
+	deviceId: number,
+) {
 	const directions = ['UP', 'DOWN', 'LEFT', 'RIGHT'] as const
-	const directionLabels: Record<typeof directions[number], string> = { UP: '↑', DOWN: '↓', LEFT: '←', RIGHT: '→' }
+	const directionLabels: Record<(typeof directions)[number], string> = { UP: '↑', DOWN: '↓', LEFT: '←', RIGHT: '→' }
 	for (const direction of directions) {
 		presets['moveTarget-' + direction + '-' + deviceId] = {
 			type: 'button',
 			category: 'Person Tracking',
-			name: 'Target ' + directionLabels[direction] + '\n(' + videoDeviceChoices.find((d) => Number(d.id) === deviceId)?.label + ')',
+			name:
+				'Target ' +
+				directionLabels[direction] +
+				'\n(' +
+				videoDeviceChoices.find((d) => Number(d.id) === deviceId)?.label +
+				')',
 			style: {
-				text: 'Target ' + directionLabels[direction] + '\n(' + videoDeviceChoices.find((d) => Number(d.id) === deviceId)?.label + ')',
+				text:
+					'Target ' +
+					directionLabels[direction] +
+					'\n(' +
+					videoDeviceChoices.find((d) => Number(d.id) === deviceId)?.label +
+					')',
 				size: 'auto',
 				bgcolor: combineRgb(0, 0, 0),
 				color: combineRgb(255, 255, 255),
@@ -662,7 +676,11 @@ function addMoveTargetButtonPresets(presets: CompanionPresetDefinitions, videoDe
 	}
 }
 
-function addMoveTargetRotaryPresets(presets: CompanionPresetDefinitions, videoDeviceChoices: DropdownChoice[], deviceId: number) {
+function addMoveTargetRotaryPresets(
+	presets: CompanionPresetDefinitions,
+	videoDeviceChoices: DropdownChoice[],
+	deviceId: number,
+) {
 	const axes = ['X', 'Y'] as const
 	for (const axis of axes) {
 		const icon = axis === 'X' ? '↔' : '↕'
@@ -715,7 +733,12 @@ function addUpdateSensitivityPresets(
 ) {
 	const directions = ['INCREASE', 'DECREASE'] as const
 	for (const direction of directions) {
-		const text = (direction === 'INCREASE' ? '+\n' : '-\n') + 'Sensitivity' + '\n (' + getDeviceNameFromVideoDeviceChoices(videoDeviceChoices, deviceId) + ')'
+		const text =
+			(direction === 'INCREASE' ? '+\n' : '-\n') +
+			'Sensitivity' +
+			'\n (' +
+			getDeviceNameFromVideoDeviceChoices(videoDeviceChoices, deviceId) +
+			')'
 		presets['updateSensitivity-' + direction + '-' + deviceId] = {
 			type: 'button',
 			category: 'Person Tracking',
@@ -826,7 +849,11 @@ function addTriggerAutoCut(presets: CompanionPresetDefinitions) {
 	}
 }
 
-function addOverideDominantSpeakerPreset(presets: CompanionPresetDefinitions, audioDeviceChoices: DropdownChoice[], deviceId: number) {
+function addOverideDominantSpeakerPreset(
+	presets: CompanionPresetDefinitions,
+	audioDeviceChoices: DropdownChoice[],
+	deviceId: number,
+) {
 	presets['overrideDominantSpeaker-' + deviceId] = {
 		type: 'button',
 		category: 'AutoCut',
@@ -861,7 +888,7 @@ function addOverideDominantSpeakerPreset(presets: CompanionPresetDefinitions, au
 					bgcolor: combineRgb(255, 255, 255),
 					color: combineRgb(0, 0, 0),
 				},
-			}
+			},
 		],
 	}
 }
@@ -922,7 +949,7 @@ function addConfigureTargetShotSizes(presets: CompanionPresetDefinitions) {
 							options: {
 								size: shotSize,
 								increment: 1,
-								step: 0.02
+								step: 0.02,
 							},
 						},
 					],
@@ -950,7 +977,7 @@ function addConfigureTargetShotSizes(presets: CompanionPresetDefinitions) {
 							options: {
 								size: shotSize,
 								increment: -1,
-								step: 0.02
+								step: 0.02,
 							},
 						},
 					],
@@ -962,7 +989,11 @@ function addConfigureTargetShotSizes(presets: CompanionPresetDefinitions) {
 	}
 }
 
-function addVMixFramerAdjustFramePreset(presets: CompanionPresetDefinitions, vmixFramerDeviceChoices: DropdownChoice[], deviceId: number) {
+function addVMixFramerAdjustFramePreset(
+	presets: CompanionPresetDefinitions,
+	vmixFramerDeviceChoices: DropdownChoice[],
+	deviceId: number,
+) {
 	presets['vmixFramerAdjustFrame-' + deviceId] = {
 		type: 'button',
 		category: 'vMix Framer',

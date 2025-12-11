@@ -138,13 +138,14 @@ export function UpdateActions(self: MiruSuiteModuleInstance): void {
 		playPreset: {
 			name: 'Play Preset',
 			description: 'Play a preset. ',
-			options: [getPresetSelector(self, presetChoices),
-			{
-				id: 'force',
-				type: 'checkbox',
-				label: 'Force play (even if camera is live)',
-				default: false,
-			}
+			options: [
+				getPresetSelector(self, presetChoices),
+				{
+					id: 'force',
+					type: 'checkbox',
+					label: 'Force play (even if camera is live)',
+					default: false,
+				},
 			],
 			async callback(event) {
 				const presetId = Number(event.options.preset)
@@ -157,13 +158,14 @@ export function UpdateActions(self: MiruSuiteModuleInstance): void {
 			name: 'Play Active Preset',
 			description:
 				'Re-apply the active preset of a camera. Use this action if you want to return a camera to its active preset if it has moved away.',
-			options: [getDeviceSelector(self, videoDeviceOptions),
-			{
-				id: 'force',
-				type: 'checkbox',
-				label: 'Force play (even if camera is live)',
-				default: false,
-			}
+			options: [
+				getDeviceSelector(self, videoDeviceOptions),
+				{
+					id: 'force',
+					type: 'checkbox',
+					label: 'Force play (even if camera is live)',
+					default: false,
+				},
 			],
 			async callback(event) {
 				const deviceId = Number(event.options.deviceId)
@@ -462,7 +464,7 @@ export function UpdateActions(self: MiruSuiteModuleInstance): void {
 						{ id: 'toggle', label: 'Toggle Override' },
 					],
 					default: 'toggle',
-				}
+				},
 			],
 			async callback(event) {
 				const deviceId = Number(event.options.deviceId)
@@ -491,11 +493,12 @@ export function UpdateActions(self: MiruSuiteModuleInstance): void {
 				} else {
 					self.log('warn', 'Device not found: ' + deviceId)
 				}
-			}
+			},
 		},
 		moveTargetPoint: {
 			name: 'Move Tracking Target',
-			description: 'Move the target point of the head tracking director by the given deltas. Requires the head tracking director.',
+			description:
+				'Move the target point of the head tracking director by the given deltas. Requires the head tracking director.',
 			options: [
 				getDeviceSelector(self, videoDeviceOptions),
 				{
@@ -556,7 +559,7 @@ export function UpdateActions(self: MiruSuiteModuleInstance): void {
 				const deltaSensitivity = Number(event.options.deltaSensitivity)
 				self.log('info', 'Updating sensitivity for device ' + deviceId + ' by ' + deltaSensitivity)
 				await backend?.updateSensitivity(device, deltaSensitivity)
-			}
-		}
+			},
+		},
 	})
 }

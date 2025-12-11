@@ -251,7 +251,7 @@ export default class Backend {
 				size -= step
 			}
 			size = Math.max(0, Math.min(1, size))
-			this.self.log('info', "Sending request with: " + shotSize + " and " + size);
+			this.self.log('info', 'Sending request with: ' + shotSize + ' and ' + size)
 
 			await this.client.POST('/api/config/shotsize', {
 				params: {
@@ -275,8 +275,8 @@ export default class Backend {
 				query: {
 					audioDeviceId: device?.id ?? -1,
 					override: override,
-				}
-			}
+				},
+			},
 		})
 	}
 
@@ -284,7 +284,7 @@ export default class Backend {
 	 * Adjust the crop frame to the target person once.
 	 * @param device device to adjust framer for
 	 */
-	async adjustFramer(device: Device) {
+	async adjustFramer(device: Device): Promise<void> {
 		await this.client.POST('/api/devices/{id}/framer/adjust', {
 			params: { path: { id: device.id ?? -1 } },
 		})
@@ -313,10 +313,10 @@ export default class Backend {
 						target: {
 							x: x,
 							y: y,
-						}
-					}
-				}
-			}
+						},
+					},
+				},
+			},
 		})
 	}
 
@@ -338,10 +338,9 @@ export default class Backend {
 					headTrackingDirector: {
 						...settings,
 						sensitivity: sensitivity,
-					}
-				}
-			}
+					},
+				},
+			},
 		})
 	}
-
 }

@@ -382,9 +382,7 @@ export function UpdateFeedbacks(self: MiruSuiteModuleInstance): void {
 				bgcolor: 0x00ff00,
 				color: 0x000000,
 			},
-			options: [
-				getDeviceSelector(self, audioDeviceChoices),
-			],
+			options: [getDeviceSelector(self, audioDeviceChoices)],
 			callback: (feedback) => {
 				const override = store.getDominantSpeakerOverride()
 				const deviceId = Number(feedback.options.deviceId)
