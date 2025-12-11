@@ -56,6 +56,8 @@ export function UpdatePresets(self: MiruSuiteModuleInstance): void {
 			addLearnTargetFacePreset(presets, videoDeviceChoices, deviceId)
 			addMoveTargetButtonPresets(presets, videoDeviceChoices, deviceId)
 			addMoveTargetRotaryPresets(presets, videoDeviceChoices, deviceId)
+			addUpdateSensitivityPresets(presets, videoDeviceChoices, deviceId)
+			addUpdateSensitivityRotaryPresets(presets, videoDeviceChoices, deviceId)
 		}
 		if (videoDevice?.components?.lectureDirector != null) {
 			addExitSteadyModePreset(presets, videoDeviceChoices, deviceId)
@@ -633,9 +635,9 @@ function addMoveTargetButtonPresets(presets: CompanionPresetDefinitions, videoDe
 		presets['moveTarget-' + direction + '-' + deviceId] = {
 			type: 'button',
 			category: 'Person Tracking',
-			name: 'Target ' + directionLabels[direction] + '\n' + videoDeviceChoices.find((d) => Number(d.id) === deviceId)?.label,
+			name: 'Target ' + directionLabels[direction] + '\n(' + videoDeviceChoices.find((d) => Number(d.id) === deviceId)?.label + ')',
 			style: {
-				text: 'Target ' + directionLabels[direction] + '\n' + videoDeviceChoices.find((d) => Number(d.id) === deviceId)?.label,
+				text: 'Target ' + directionLabels[direction] + '\n(' + videoDeviceChoices.find((d) => Number(d.id) === deviceId)?.label + ')',
 				size: 'auto',
 				bgcolor: combineRgb(0, 0, 0),
 				color: combineRgb(255, 255, 255),
@@ -668,9 +670,9 @@ function addMoveTargetRotaryPresets(presets: CompanionPresetDefinitions, videoDe
 			type: 'button',
 			options: { rotaryActions: true },
 			category: 'Person Tracking',
-			name: 'Target ' + icon + '\n' + videoDeviceChoices.find((d) => Number(d.id) === deviceId)?.label,
+			name: 'Target ' + icon + '\n(' + videoDeviceChoices.find((d) => Number(d.id) === deviceId)?.label + ')',
 			style: {
-				text: 'Target ' + icon + '\n' + videoDeviceChoices.find((d) => Number(d.id) === deviceId)?.label,
+				text: 'Target ' + icon + '\n(' + videoDeviceChoices.find((d) => Number(d.id) === deviceId)?.label + ')',
 				size: 'auto',
 				bgcolor: combineRgb(0, 0, 0),
 				color: combineRgb(255, 255, 255),
@@ -703,6 +705,88 @@ function addMoveTargetRotaryPresets(presets: CompanionPresetDefinitions, videoDe
 			],
 			feedbacks: [],
 		}
+	}
+}
+
+function addUpdateSensitivityPresets(
+	presets: CompanionPresetDefinitions,
+	videoDeviceChoices: DropdownChoice[],
+	deviceId: number,
+) {
+	const directions = ['INCREASE', 'DECREASE'] as const
+	for (const direction of directions) {
+		const text = (direction === 'INCREASE' ? '+\n' : '-\n') + 'Sensitivity' + '\n (' + getDeviceNameFromVideoDeviceChoices(videoDeviceChoices, deviceId) + ')'
+		presets['updateSensitivity-' + direction + '-' + deviceId] = {
+			type: 'button',
+			category: 'Person Tracking',
+			name: text,
+			style: {
+				text: text,
+				size: 'auto',
+				bgcolor: combineRgb(0, 0, 0),
+				color: combineRgb(255, 255, 255),
+			},
+			steps: [
+				{
+					down: [
+						{
+							actionId: 'updateSensitivity',
+							options: {
+								deltaSensitivity: direction === 'INCREASE' ? 0.02 : -0.02,
+								deviceId: deviceId,
+							},
+						},
+					],
+					up: [],
+				},
+			],
+			feedbacks: [],
+		}
+	}
+}
+
+function addUpdateSensitivityRotaryPresets(
+	presets: CompanionPresetDefinitions,
+	videoDeviceChoices: DropdownChoice[],
+	deviceId: number,
+) {
+	const text = 'Sensitivity' + '\n (' + getDeviceNameFromVideoDeviceChoices(videoDeviceChoices, deviceId) + ')'
+	presets['updateSensitivityRotary-' + deviceId] = {
+		type: 'button',
+		options: { rotaryActions: true },
+		category: 'Person Tracking',
+		name: text,
+		style: {
+			text: text,
+			size: 'auto',
+			bgcolor: combineRgb(0, 0, 0),
+			color: combineRgb(255, 255, 255),
+		},
+		steps: [
+			{
+				down: [],
+				up: [],
+				rotate_left: [
+					{
+						actionId: 'updateSensitivity',
+						options: {
+							deltaSensitivity: -0.02,
+							deviceId: deviceId,
+						},
+					},
+				],
+				rotate_right: [
+					{
+						actionId: 'updateSensitivity',
+						options: {
+							deltaSensitivity: 0.02,
+							deviceId: deviceId,
+						},
+					},
+				],
+			},
+		],
+		feedbacks: [],
 	}
 }
 

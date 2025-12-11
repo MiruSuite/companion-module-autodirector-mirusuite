@@ -530,6 +530,33 @@ export function UpdateActions(self: MiruSuiteModuleInstance): void {
 				)
 				await backend?.moveTargetPoint(device, deltaX, deltaY)
 			},
+		},
+		updateSensitivity: {
+			name: 'Update Sensitivity',
+			description: 'Update the sensitivity of a head tracking director.',
+			options: [
+				getDeviceSelector(self, videoDeviceOptions),
+				{
+					id: 'deltaSensitivity',
+					type: 'number',
+					label: 'Sensitivity',
+					default: 0.1,
+					min: 0.01,
+					max: 0.3,
+					step: 0.01,
+				},
+			],
+			async callback(event) {
+				const deviceId = Number(event.options.deviceId)
+				const device = store.getDeviceById(deviceId)
+				if (!device) {
+					self.log('warn', 'Updating sensitivity: Device not found: ' + deviceId)
+					return
+				}
+				const deltaSensitivity = Number(event.options.deltaSensitivity)
+				self.log('info', 'Updating sensitivity for device ' + deviceId + ' by ' + deltaSensitivity)
+				await backend?.updateSensitivity(device, deltaSensitivity)
+			}
 		}
 	})
 }

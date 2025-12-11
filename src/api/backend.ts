@@ -320,4 +320,28 @@ export default class Backend {
 		})
 	}
 
+	/**
+	 * Update the sensitivity of the head tracking director by the given delta.
+	 * @param device  device to update sensitivity for
+	 * @param deltaSensitivity amount to change sensitivity by
+	 */
+	async updateSensitivity(device: Device, deltaSensitivity: number): Promise<void> {
+		const settings = device.components?.headTrackingDirector
+		if (settings === null || settings === undefined) {
+			return
+		}
+		const sensitivity = Math.max(0.2, Math.min(0.8, (settings.sensitivity ?? 0.5) + deltaSensitivity))
+		await this.client.PUT('/api/devices/{id}', {
+			params: { path: { id: device.id ?? -1 } },
+			body: {
+				patch: {
+					headTrackingDirector: {
+						...settings,
+						sensitivity: sensitivity,
+					}
+				}
+			}
+		})
+	}
+
 }
