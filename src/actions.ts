@@ -492,6 +492,44 @@ export function UpdateActions(self: MiruSuiteModuleInstance): void {
 					self.log('warn', 'Device not found: ' + deviceId)
 				}
 			}
+		},
+		moveTargetPoint: {
+			name: 'Move Tracking Target',
+			description: 'Move the target point of the head tracking director by the given deltas. Requires the head tracking director.',
+			options: [
+				getDeviceSelector(self, videoDeviceOptions),
+				{
+					id: 'deltaX',
+					type: 'number',
+					label: 'Delta X',
+					default: 0,
+					min: -1,
+					max: 1,
+				},
+				{
+					id: 'deltaY',
+					type: 'number',
+					label: 'Delta Y',
+					default: 0,
+					min: -1,
+					max: 1,
+				},
+			],
+			async callback(event) {
+				const deviceId = Number(event.options.deviceId)
+				const device = store.getDeviceById(deviceId)
+				if (!device) {
+					self.log('warn', 'Moving tracking target: Device not found: ' + deviceId)
+					return
+				}
+				const deltaX = Number(event.options.deltaX)
+				const deltaY = Number(event.options.deltaY)
+				self.log(
+					'info',
+					'Moving tracking target for device ' + deviceId + ' by deltaX: ' + deltaX + ', deltaY: ' + deltaY,
+				)
+				await backend?.moveTargetPoint(device, deltaX, deltaY)
+			},
 		}
 	})
 }

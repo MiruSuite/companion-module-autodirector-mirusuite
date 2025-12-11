@@ -54,6 +54,8 @@ export function UpdatePresets(self: MiruSuiteModuleInstance): void {
 				addTrackingModePreset(presets, 'SINGLE', faceChoices, videoDeviceChoices, deviceId)
 			}
 			addLearnTargetFacePreset(presets, videoDeviceChoices, deviceId)
+			addMoveTargetButtonPresets(presets, videoDeviceChoices, deviceId)
+			addMoveTargetRotaryPresets(presets, videoDeviceChoices, deviceId)
 		}
 		if (videoDevice?.components?.lectureDirector != null) {
 			addExitSteadyModePreset(presets, videoDeviceChoices, deviceId)
@@ -621,6 +623,86 @@ function addReturnToHomeButton(
 			},
 		],
 		feedbacks: [],
+	}
+}
+
+function addMoveTargetButtonPresets(presets: CompanionPresetDefinitions, videoDeviceChoices: DropdownChoice[], deviceId: number) {
+	const directions = ['UP', 'DOWN', 'LEFT', 'RIGHT'] as const
+	const directionLabels: Record<typeof directions[number], string> = { UP: '↑', DOWN: '↓', LEFT: '←', RIGHT: '→' }
+	for (const direction of directions) {
+		presets['moveTarget-' + direction + '-' + deviceId] = {
+			type: 'button',
+			category: 'Person Tracking',
+			name: 'Target ' + directionLabels[direction] + '\n' + videoDeviceChoices.find((d) => Number(d.id) === deviceId)?.label,
+			style: {
+				text: 'Target ' + directionLabels[direction] + '\n' + videoDeviceChoices.find((d) => Number(d.id) === deviceId)?.label,
+				size: 'auto',
+				bgcolor: combineRgb(0, 0, 0),
+				color: combineRgb(255, 255, 255),
+			},
+			steps: [
+				{
+					down: [
+						{
+							actionId: 'moveTargetPoint',
+							options: {
+								deltaX: direction === 'LEFT' ? -0.02 : direction === 'RIGHT' ? 0.02 : 0,
+								deltaY: direction === 'UP' ? -0.02 : direction === 'DOWN' ? 0.02 : 0,
+								deviceId: deviceId,
+							},
+						},
+					],
+					up: [],
+				},
+			],
+			feedbacks: [],
+		}
+	}
+}
+
+function addMoveTargetRotaryPresets(presets: CompanionPresetDefinitions, videoDeviceChoices: DropdownChoice[], deviceId: number) {
+	const axes = ['X', 'Y'] as const
+	for (const axis of axes) {
+		const icon = axis === 'X' ? '↔' : '↕'
+		presets['moveTargetRotary-' + axis + '-' + deviceId] = {
+			type: 'button',
+			options: { rotaryActions: true },
+			category: 'Person Tracking',
+			name: 'Target ' + icon + '\n' + videoDeviceChoices.find((d) => Number(d.id) === deviceId)?.label,
+			style: {
+				text: 'Target ' + icon + '\n' + videoDeviceChoices.find((d) => Number(d.id) === deviceId)?.label,
+				size: 'auto',
+				bgcolor: combineRgb(0, 0, 0),
+				color: combineRgb(255, 255, 255),
+			},
+			steps: [
+				{
+					down: [],
+					up: [],
+					rotate_left: [
+						{
+							actionId: 'moveTargetPoint',
+							options: {
+								deltaX: axis === 'X' ? -0.02 : 0,
+								deltaY: axis === 'Y' ? -0.02 : 0,
+								deviceId: deviceId,
+							},
+						},
+					],
+					rotate_right: [
+						{
+							actionId: 'moveTargetPoint',
+							options: {
+								deltaX: axis === 'X' ? 0.02 : 0,
+								deltaY: axis === 'Y' ? 0.02 : 0,
+								deviceId: deviceId,
+							},
+						},
+					],
+				},
+			],
+			feedbacks: [],
+		}
 	}
 }
 
