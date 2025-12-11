@@ -2,16 +2,18 @@ import { CompanionPresetDefinitions, DropdownChoice, combineRgb } from '@compani
 import { MiruSuiteModuleInstance } from './main.js'
 import type { ShotSize, TrackingMode } from './api/types.js'
 import {
-	createVideoDeviceOptions,
+	createDeviceOptions,
 	getDeviceNameFromVideoDeviceChoices,
 	createFaceOptions,
 	getPresetChoices,
+	shotSizeToLabel,
 } from './scripts/helpers.js'
 
 export function UpdatePresets(self: MiruSuiteModuleInstance): void {
 	const faceChoices: DropdownChoice[] = createFaceOptions(self)
-	const videoDevices = self.store.getVideoDevices()
-	const videoDeviceChoices: DropdownChoice[] = createVideoDeviceOptions(videoDevices)
+	const videoDeviceChoices: DropdownChoice[] = createDeviceOptions(self.store.getVideoDevices())
+	const audioDeviceChoices: DropdownChoice[] = createDeviceOptions(self.store.getAudioDevices())
+	const vmixFramerDeviceChoices: DropdownChoice[] = createDeviceOptions(self.store.getVMixFramerDevices())
 	const devicePresets: DropdownChoice[] = getPresetChoices(self, videoDeviceChoices)
 
 	self.log(
@@ -58,6 +60,14 @@ export function UpdatePresets(self: MiruSuiteModuleInstance): void {
 		addReturnToHomeButton(presets, videoDeviceChoices, deviceId)
 		addReApplyPreset(presets, videoDeviceChoices, deviceId)
 	}
+	for (const choice of audioDeviceChoices) {
+		const deviceId = Number(choice.id)
+		addOverideDominantSpeakerPreset(presets, audioDeviceChoices, deviceId)
+	}
+	for (const choice of vmixFramerDeviceChoices) {
+		const deviceId = Number(choice.id)
+		addVMixFramerAdjustFramePreset(presets, vmixFramerDeviceChoices, deviceId)
+	}
 	for (const devicePreset of devicePresets) {
 		self.log('info', 'Adding preset ' + devicePreset.label)
 		addPlayPresetPreset(presets, devicePreset)
@@ -66,6 +76,7 @@ export function UpdatePresets(self: MiruSuiteModuleInstance): void {
 	addAutoPresetButton(presets)
 	addClearAllLearnedButtonData(presets)
 	addTriggerAutoCut(presets)
+	addConfigureTargetShotSizes(presets)
 	self.setPresetDefinitions(presets)
 }
 
@@ -75,17 +86,7 @@ function addShotSizePreset(
 	videoDeviceChoices: DropdownChoice[],
 	deviceId: number,
 ) {
-	let text = ''
-	switch (shotSize) {
-		case 'WIDE':
-			text = 'Wide'
-			break
-		case 'MEDIUM':
-			text = 'Medium'
-			break
-		case 'CLOSE_UP':
-			text = 'Close'
-	}
+	let text = shotSizeToLabel(shotSize)
 	text += ' (' + getDeviceNameFromVideoDeviceChoices(videoDeviceChoices, deviceId) + ')'
 	presets['shotSize-' + shotSize + '-' + deviceId] = {
 		type: 'button',
@@ -658,6 +659,35 @@ function addTriggerAutoCut(presets: CompanionPresetDefinitions) {
 	}
 }
 
+function addOverideDominantSpeakerPreset(presets: CompanionPresetDefinitions, audioDeviceChoices: DropdownChoice[], deviceId: number) {
+	presets['overrideDominantSpeaker-' + deviceId] = {
+		type: 'button',
+		category: 'AutoCut',
+		name: 'Override Dominant Speaker',
+		style: {
+			text: 'Override\n' + audioDeviceChoices.find((d) => Number(d.id) === deviceId)?.label,
+			size: 'auto',
+			bgcolor: combineRgb(0, 0, 0),
+			color: combineRgb(255, 255, 255),
+		},
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'setOverrideDominantSpeaker',
+						options: {
+							mode: 'toggle',
+							deviceId: deviceId,
+						},
+					},
+				],
+				up: [],
+			},
+		],
+		feedbacks: [],
+	}
+}
+
 function addExitSteadyModePreset(
 	presets: CompanionPresetDefinitions,
 	videoDeviceChoices: DropdownChoice[],
@@ -679,6 +709,97 @@ function addExitSteadyModePreset(
 				down: [
 					{
 						actionId: 'exitSteadyMode',
+						options: {
+							deviceId: deviceId,
+						},
+					},
+				],
+				up: [],
+			},
+		],
+		feedbacks: [],
+	}
+}
+
+function addConfigureTargetShotSizes(presets: CompanionPresetDefinitions) {
+	const shotSizes: ShotSize[] = ['WIDE', 'MEDIUM', 'CLOSE_UP']
+	for (const shotSize of shotSizes) {
+		// Add increase and decrease buttons for each shot size
+		const increaseText = '+\n' + shotSizeToLabel(shotSize)
+		presets['increaseShotSize-' + shotSize] = {
+			type: 'button',
+			category: 'Person Tracking',
+			name: increaseText,
+			style: {
+				text: increaseText,
+				size: 'auto',
+				bgcolor: combineRgb(0, 0, 0),
+				color: combineRgb(255, 255, 255),
+			},
+			steps: [
+				{
+					down: [
+						{
+							actionId: 'updateTargetShotSizeConfig',
+							options: {
+								size: shotSize,
+								increment: true,
+								step: 0.01,
+							},
+						},
+					],
+					up: [],
+				},
+			],
+			feedbacks: [],
+		}
+		const decreaseText = '-\n' + shotSizeToLabel(shotSize)
+		presets['decreaseShotSize-' + shotSize] = {
+			type: 'button',
+			category: 'Person Tracking',
+			name: decreaseText,
+			style: {
+				text: decreaseText,
+				size: 'auto',
+				bgcolor: combineRgb(0, 0, 0),
+				color: combineRgb(255, 255, 255),
+			},
+			steps: [
+				{
+					down: [
+						{
+							actionId: 'updateTargetShotSizeConfig',
+							options: {
+								size: shotSize,
+								increment: false,
+								step: 0.01,
+							},
+						},
+					],
+					up: [],
+				},
+			],
+			feedbacks: [],
+		}
+	}
+}
+
+function addVMixFramerAdjustFramePreset(presets: CompanionPresetDefinitions, vmixFramerDeviceChoices: DropdownChoice[], deviceId: number) {
+	presets['vmixFramerAdjustFrame-' + deviceId] = {
+		type: 'button',
+		category: 'vMix Framer',
+		name: 'Adjust Frame',
+		style: {
+			text: 'Adjust Frame\n' + vmixFramerDeviceChoices.find((d) => Number(d.id) === deviceId)?.label,
+			size: 'auto',
+			bgcolor: combineRgb(0, 0, 0),
+			color: combineRgb(255, 255, 255),
+		},
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'adjustFramer',
 						options: {
 							deviceId: deviceId,
 						},

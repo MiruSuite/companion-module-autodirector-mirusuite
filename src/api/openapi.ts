@@ -1817,13 +1817,13 @@ export interface components {
 		}
 		/** @enum {string} */
 		AutoCutEventType:
-		| 'CUT'
-		| 'STATE_CHANGED'
-		| 'PRESENTATION_CHANGED'
-		| 'PERSON_TRACKING_CHANGED'
-		| 'AUDIO_CHANGED'
-		| 'DEBUG'
-		| 'PRESET_APPLIED'
+			| 'CUT'
+			| 'STATE_CHANGED'
+			| 'PRESENTATION_CHANGED'
+			| 'PERSON_TRACKING_CHANGED'
+			| 'AUDIO_CHANGED'
+			| 'DEBUG'
+			| 'PRESET_APPLIED'
 		AutoCutSettings: {
 			running?: boolean
 			config?: components['schemas']['AutoCutConfig']
@@ -1959,33 +1959,33 @@ export interface components {
 		}
 		/** @enum {string} */
 		ComponentId:
-		| 'INPUT_AUDIO'
-		| 'INPUT_DUMMY'
-		| 'INPUT_MJPEG'
-		| 'INPUT_NDI'
-		| 'INPUT_WEBCAM'
-		| 'AUDIO_ANALYZER'
-		| 'PERSON_TRACKER'
-		| 'PRESENTATION_ANALYZER'
-		| 'DIRECTOR_AUTO_MOVE'
-		| 'DIRECTOR_HEAD_TRACKING'
-		| 'DIRECTOR_LECTURE'
-		| 'CONTROLLER_SIMULATED_CROP'
-		| 'CONTROLLER_PANASONIC'
-		| 'CONTROLLER_CANON'
-		| 'CONTROLLER_BIRD_DOG'
-		| 'CONTROLLER_SONY_CGI'
-		| 'CONTROLLER_SONY_VISCA'
-		| 'CONTROLLER_MARSHALL_VISCA'
-		| 'CONTROLLER_TELYCAM_VISCA'
-		| 'CONTROLLER_UNREAL_ENGINE'
-		| 'RECORDER'
-		| 'AUTO_CUT_AUDIENCE'
-		| 'AUTO_CUT_AUDIO'
-		| 'AUTO_CUT_PRESENTATION'
-		| 'AUTO_CUT_SPEAKER'
-		| 'AUTO_CUT_STAGE'
-		| 'FRAMER_VMIX'
+			| 'INPUT_AUDIO'
+			| 'INPUT_DUMMY'
+			| 'INPUT_MJPEG'
+			| 'INPUT_NDI'
+			| 'INPUT_WEBCAM'
+			| 'AUDIO_ANALYZER'
+			| 'PERSON_TRACKER'
+			| 'PRESENTATION_ANALYZER'
+			| 'DIRECTOR_AUTO_MOVE'
+			| 'DIRECTOR_HEAD_TRACKING'
+			| 'DIRECTOR_LECTURE'
+			| 'CONTROLLER_SIMULATED_CROP'
+			| 'CONTROLLER_PANASONIC'
+			| 'CONTROLLER_CANON'
+			| 'CONTROLLER_BIRD_DOG'
+			| 'CONTROLLER_SONY_CGI'
+			| 'CONTROLLER_SONY_VISCA'
+			| 'CONTROLLER_MARSHALL_VISCA'
+			| 'CONTROLLER_TELYCAM_VISCA'
+			| 'CONTROLLER_UNREAL_ENGINE'
+			| 'RECORDER'
+			| 'AUTO_CUT_AUDIENCE'
+			| 'AUTO_CUT_AUDIO'
+			| 'AUTO_CUT_PRESENTATION'
+			| 'AUTO_CUT_SPEAKER'
+			| 'AUTO_CUT_STAGE'
+			| 'FRAMER_VMIX'
 		ComponentPatchDto: {
 			audioInput?: components['schemas']['AudioInputComponentSettings'] | null
 			dummyInput?: components['schemas']['DummyInputComponentSettings'] | null
@@ -2129,17 +2129,17 @@ export interface components {
 		}
 		/** @enum {string} */
 		GUIUpdateType:
-		| 'ERROR'
-		| 'DEVICES_UPDATED'
-		| 'PERSONS_UPDATED'
-		| 'COMPONENTS_UPDATED'
-		| 'PROJECT_UPDATED'
-		| 'SWITCHER_STATE_UPDATED'
-		| 'SWITCHER_CONFIG_UPDATED'
-		| 'ACTIVE_PRESET_UPDATED'
-		| 'AUTO_CUT_UPDATED'
-		| 'AUTO_CUT_SPEAKER_OVERRIDE_UPDATED'
-		| 'TOKEN'
+			| 'ERROR'
+			| 'DEVICES_UPDATED'
+			| 'PERSONS_UPDATED'
+			| 'COMPONENTS_UPDATED'
+			| 'PROJECT_UPDATED'
+			| 'SWITCHER_STATE_UPDATED'
+			| 'SWITCHER_CONFIG_UPDATED'
+			| 'ACTIVE_PRESET_UPDATED'
+			| 'AUTO_CUT_UPDATED'
+			| 'AUTO_CUT_SPEAKER_OVERRIDE_UPDATED'
+			| 'TOKEN'
 		/** @description Patch for HeadTrackingDirectorComponentSettings */
 		HEAD_DIRECTOR: {
 			enabled?: boolean | null
@@ -2351,22 +2351,22 @@ export interface components {
 		}
 		/** @enum {string} */
 		OrtProvider:
-		| 'CPU'
-		| 'CUDA'
-		| 'DNNL'
-		| 'OPEN_VINO'
-		| 'VITIS_AI'
-		| 'TENSOR_RT'
-		| 'NNAPI'
-		| 'RK_NPU'
-		| 'DIRECT_ML'
-		| 'MI_GRAPH_X'
-		| 'ACL'
-		| 'ARM_NN'
-		| 'ROCM'
-		| 'CORE_ML'
-		| 'XNNPACK'
-		| 'AZURE'
+			| 'CPU'
+			| 'CUDA'
+			| 'DNNL'
+			| 'OPEN_VINO'
+			| 'VITIS_AI'
+			| 'TENSOR_RT'
+			| 'NNAPI'
+			| 'RK_NPU'
+			| 'DIRECT_ML'
+			| 'MI_GRAPH_X'
+			| 'ACL'
+			| 'ARM_NN'
+			| 'ROCM'
+			| 'CORE_ML'
+			| 'XNNPACK'
+			| 'AZURE'
 		/** @description Patch for PersonTrackerComponentSettings */
 		PERSON_TRACK: {
 			enabled?: boolean | null
@@ -2509,15 +2509,15 @@ export interface components {
 		}
 		/** @enum {string} */
 		ProductVariant:
-		| 'NONE'
-		| 'SINGLE_TRACKING'
-		| 'SINGLE_TRACKING_AUTOCUT_TRIAL'
-		| 'TRACKING'
-		| 'TRACKING_AUTOCUT_TRIAL'
-		| 'AUTOCUT'
-		| 'AUTOCUT_PRO'
-		| 'EDUCATION'
-		| 'TEST'
+			| 'NONE'
+			| 'SINGLE_TRACKING'
+			| 'SINGLE_TRACKING_AUTOCUT_TRIAL'
+			| 'TRACKING'
+			| 'TRACKING_AUTOCUT_TRIAL'
+			| 'AUTOCUT'
+			| 'AUTOCUT_PRO'
+			| 'EDUCATION'
+			| 'TEST'
 		ProjectEntity: {
 			name?: string
 			created?: components['schemas']['LocalDateTime']
@@ -2628,17 +2628,17 @@ export interface components {
 		}
 		StageAutoCutComponentSettings: Record<string, never>
 		State:
-		| components['schemas']['PersonTrackerState']
-		| components['schemas']['BorderBrakeState']
-		| components['schemas']['AudioLevelState']
-		| components['schemas']['AudioLabelEvent']
-		| components['schemas']['VideoCutState']
-		| components['schemas']['AutoCutEvent']
-		| components['schemas']['AutoCutState']
-		| components['schemas']['SteadyModeState']
-		| components['schemas']['AdaptiveShotSize']
-		| components['schemas']['TestUsageState']
-		| components['schemas']['CropFrame']
+			| components['schemas']['PersonTrackerState']
+			| components['schemas']['BorderBrakeState']
+			| components['schemas']['AudioLevelState']
+			| components['schemas']['AudioLabelEvent']
+			| components['schemas']['VideoCutState']
+			| components['schemas']['AutoCutEvent']
+			| components['schemas']['AutoCutState']
+			| components['schemas']['SteadyModeState']
+			| components['schemas']['AdaptiveShotSize']
+			| components['schemas']['TestUsageState']
+			| components['schemas']['CropFrame']
 		/** @enum {string} */
 		StateDto: 'STAGE' | 'SPEAKER' | 'PIP' | 'PRESENTATION' | 'AUDIENCE'
 		/** @description Describes if a device with person tracking is in steady mode. */
@@ -2658,15 +2658,15 @@ export interface components {
 			driver?: components['schemas']['SwitcherDriver']
 			/** @description Properties based on the driver type */
 			properties?:
-			| (components['schemas']['SwitcherProperties'] &
-				(
-					| components['schemas']['AtemProperties']
-					| components['schemas']['SimulatorProperties']
-					| components['schemas']['RossTalkProperties']
-					| components['schemas']['VMixProperties']
-					| components['schemas']['RolandV160Properties']
-				))
-			| null
+				| (components['schemas']['SwitcherProperties'] &
+						(
+							| components['schemas']['AtemProperties']
+							| components['schemas']['SimulatorProperties']
+							| components['schemas']['RossTalkProperties']
+							| components['schemas']['VMixProperties']
+							| components['schemas']['RolandV160Properties']
+						))
+				| null
 		}
 		/** @enum {string} */
 		SwitcherConnectionResult: 'CONNECTED' | 'TIMEOUT' | 'MALFORMED_HOST' | 'CONNECTION_FAIL'

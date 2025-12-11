@@ -134,15 +134,15 @@ export default class Backend {
 		return []
 	}
 
-	async playPreset(id: number): Promise<void> {
+	async playPreset(id: number, force: boolean): Promise<void> {
 		await this.client.POST('/api/projects/active/presets/{id}/play', {
-			params: { path: { id } },
+			params: { path: { id }, query: { force } },
 		})
 	}
 
-	async playActivePreset(device: number): Promise<void> {
+	async playActivePreset(device: number, force: boolean): Promise<void> {
 		await this.client.POST('/api/projects/active/presets/reapply/{device}', {
-			params: { path: { device } },
+			params: { path: { device }, query: { force } },
 		})
 	}
 
@@ -240,4 +240,52 @@ export default class Backend {
 			params: { path: { id } },
 		})
 	}
+
+	async updateTargetShotSizeConfig(shotSize: ShotSize, increment: boolean, step: number): Promise<void> {
+		const response = await this.client.GET('/api/config/shotsize')
+		if (response.data !== undefined) {
+			let size = response.data[shotSize]
+			if (increment) {
+				size += step
+			} else {
+				size -= step
+			}
+			size = Math.max(0, Math.min(1, size))
+			await this.client.POST('/api/config/shotsize', {
+				params: {
+					query: {
+						shotSize: shotSize,
+						diagonal: size,
+					},
+				},
+			})
+		}
+	}
+
+	async loadOverrideDominantSpeaker(): Promise<number | null> {
+		const response = await this.client.GET('/api/autocut/overrideDominantSpeaker')
+		return response.data?.id ?? null
+	}
+
+	async setOverrideDominantSpeaker(device: Device | undefined, override: boolean): Promise<void> {
+		await this.client.POST('/api/autocut/overrideDominantSpeaker', {
+			params: {
+				query: {
+					audioDeviceId: device?.id ?? -1,
+					override: override,
+				}
+			}
+		})
+	}
+
+	/**
+	 * Adjust the crop frame to the target person once.
+	 * @param device device to adjust framer for
+	 */
+	async adjustFramer(device: Device) {
+		await this.client.POST('/api/devices/{id}/framer/adjust', {
+			params: { path: { id: device.id ?? -1 } },
+		})
+	}
+
 }
