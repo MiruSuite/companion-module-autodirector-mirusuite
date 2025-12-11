@@ -276,7 +276,6 @@ export function getDirectorType(
 	if (directorComponent === undefined) return undefined
 	else if (directorComponent === 'DIRECTOR_HEAD_TRACKING') return 'DIRECTOR_HEAD_TRACKING'
 	else if (directorComponent === 'DIRECTOR_LECTURE') return 'DIRECTOR_LECTURE'
-	else if (directorComponent === 'FRAMER_VMIX') return 'DIRECTOR_VMX_FRAMER'
 	else return 'DIRECTOR_AUTO_MOVE'
 }
 

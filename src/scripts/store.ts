@@ -58,7 +58,7 @@ export class Store {
 	}
 
 	getVMixFramerDevices(): Device[] {
-		return this.devices.filter((device) => getDirectorType(device) === 'DIRECTOR_VMX_FRAMER')
+		return this.devices.filter((device) => device.components?.vMixFramer != null)
 	}
 
 	async loadActivePresetMap(): Promise<void> {

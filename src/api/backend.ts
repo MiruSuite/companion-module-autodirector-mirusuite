@@ -251,10 +251,12 @@ export default class Backend {
 				size -= step
 			}
 			size = Math.max(0, Math.min(1, size))
+			this.self.log('info', "Sending request with: " + shotSize + " and " + size);
+
 			await this.client.POST('/api/config/shotsize', {
 				params: {
 					query: {
-						shotSize: shotSize,
+						size: shotSize,
 						diagonal: size,
 					},
 				},

@@ -424,9 +424,9 @@ export function UpdateActions(self: MiruSuiteModuleInstance): void {
 					id: 'step',
 					type: 'number',
 					label: 'Step size',
-					default: 0.01,
+					default: 0.02,
 					min: 0.005,
-					max: 0.02,
+					max: 0.1,
 				},
 				{
 					id: 'increment',

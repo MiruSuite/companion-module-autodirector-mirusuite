@@ -15,6 +15,7 @@ export function UpdatePresets(self: MiruSuiteModuleInstance): void {
 	const audioDeviceChoices: DropdownChoice[] = createDeviceOptions(self.store.getAudioDevices())
 	const vmixFramerDeviceChoices: DropdownChoice[] = createDeviceOptions(self.store.getVMixFramerDevices())
 	const devicePresets: DropdownChoice[] = getPresetChoices(self, videoDeviceChoices)
+	self.log('info', 'Available vMix Framer devices: ' + JSON.stringify(vmixFramerDeviceChoices))
 
 	self.log(
 		'debug',
@@ -684,7 +685,18 @@ function addOverideDominantSpeakerPreset(presets: CompanionPresetDefinitions, au
 				up: [],
 			},
 		],
-		feedbacks: [],
+		feedbacks: [
+			{
+				feedbackId: 'dominantSpeakerOverride',
+				options: {
+					deviceId: deviceId,
+				},
+				style: {
+					bgcolor: combineRgb(255, 255, 255),
+					color: combineRgb(0, 0, 0),
+				},
+			}
+		],
 	}
 }
 
@@ -743,8 +755,8 @@ function addConfigureTargetShotSizes(presets: CompanionPresetDefinitions) {
 							actionId: 'updateTargetShotSizeConfig',
 							options: {
 								size: shotSize,
-								increment: true,
-								step: 0.01,
+								increment: 1,
+								step: 0.02
 							},
 						},
 					],
@@ -771,8 +783,8 @@ function addConfigureTargetShotSizes(presets: CompanionPresetDefinitions) {
 							actionId: 'updateTargetShotSizeConfig',
 							options: {
 								size: shotSize,
-								increment: false,
-								step: 0.01,
+								increment: -1,
+								step: 0.02
 							},
 						},
 					],
