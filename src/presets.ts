@@ -15,7 +15,6 @@ export function UpdatePresets(self: MiruSuiteModuleInstance): void {
 	const audioDeviceChoices: DropdownChoice[] = createDeviceOptions(self.store.getAudioDevices())
 	const vmixFramerDeviceChoices: DropdownChoice[] = createDeviceOptions(self.store.getVMixFramerDevices())
 	const devicePresets: DropdownChoice[] = getPresetChoices(self, videoDeviceChoices)
-	self.log('info', 'Available vMix Framer devices: ' + JSON.stringify(vmixFramerDeviceChoices))
 
 	self.log(
 		'debug',
@@ -67,7 +66,7 @@ export function UpdatePresets(self: MiruSuiteModuleInstance): void {
 	}
 	for (const choice of audioDeviceChoices) {
 		const deviceId = Number(choice.id)
-		addOverideDominantSpeakerPreset(presets, audioDeviceChoices, deviceId)
+		addOverrideDominantSpeakerPreset(presets, audioDeviceChoices, deviceId)
 	}
 	for (const choice of vmixFramerDeviceChoices) {
 		const deviceId = Number(choice.id)
@@ -849,7 +848,7 @@ function addTriggerAutoCut(presets: CompanionPresetDefinitions) {
 	}
 }
 
-function addOverideDominantSpeakerPreset(
+function addOverrideDominantSpeakerPreset(
 	presets: CompanionPresetDefinitions,
 	audioDeviceChoices: DropdownChoice[],
 	deviceId: number,

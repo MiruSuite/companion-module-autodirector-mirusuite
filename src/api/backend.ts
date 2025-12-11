@@ -294,16 +294,16 @@ export default class Backend {
 	 * Move the target point of the head tracking director by the given deltas.
 	 * Requires a head tracking director component.
 	 * @param device device to move target point for
-	 * @param delta_x amount to move in x direction
-	 * @param delta_y amount to move in y direction
+	 * @param deltaX amount to move in x direction
+	 * @param deltaY amount to move in y direction
 	 */
-	async moveTargetPoint(device: Device, delta_x: number, delta_y: number): Promise<void> {
+	async moveTargetPoint(device: Device, deltaX: number, deltaY: number): Promise<void> {
 		const settings = device.components?.headTrackingDirector
 		if (settings === null || settings === undefined) {
 			return
 		}
-		const x = Math.max(-1, Math.min(1, (settings.target?.x ?? 0.5) + delta_x))
-		const y = Math.max(-1, Math.min(1, (settings.target?.y ?? 0.5) + delta_y))
+		const x = Math.max(-1, Math.min(1, (settings.target?.x ?? 0.5) + deltaX))
+		const y = Math.max(-1, Math.min(1, (settings.target?.y ?? 0.5) + deltaY))
 		await this.client.PUT('/api/devices/{id}', {
 			params: { path: { id: device.id ?? -1 } },
 			body: {

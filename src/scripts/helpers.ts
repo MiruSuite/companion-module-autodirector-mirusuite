@@ -271,7 +271,7 @@ export function getInputComponentType(device: Device): 'AUDIO' | 'VIDEO' | undef
 
 export function getDirectorType(
 	device: Device,
-): 'DIRECTOR_HEAD_TRACKING' | 'DIRECTOR_AUTO_MOVE' | 'DIRECTOR_LECTURE' | 'DIRECTOR_VMX_FRAMER' | undefined {
+): 'DIRECTOR_HEAD_TRACKING' | 'DIRECTOR_AUTO_MOVE' | 'DIRECTOR_LECTURE' | undefined {
 	const directorComponent = getComponentOfType(device, 'DIRECTOR')
 	if (directorComponent === undefined) return undefined
 	else if (directorComponent === 'DIRECTOR_HEAD_TRACKING') return 'DIRECTOR_HEAD_TRACKING'

@@ -445,7 +445,7 @@ export function UpdateActions(self: MiruSuiteModuleInstance): void {
 				const size = event.options.size as ShotSize
 				const increment = Number(event.options.increment)
 				const step = Number(event.options.step)
-				self.log('info', 'Increasing target shot size for size ' + size + ' by ' + increment + ' with step ' + step)
+				self.log('info', 'Updating target shot size for size ' + size + ' by ' + increment + ' with step ' + step)
 				await backend?.updateTargetShotSizeConfig(size, increment === 1, step)
 			},
 		},
