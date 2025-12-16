@@ -544,7 +544,7 @@ export function UpdateActions(self: MiruSuiteModuleInstance): void {
 					type: 'number',
 					label: 'Sensitivity',
 					default: 0.1,
-					min: 0.01,
+					min: -0.3,
 					max: 0.3,
 					step: 0.01,
 				},
