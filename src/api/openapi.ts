@@ -939,40 +939,6 @@ export interface paths {
 		patch?: never
 		trace?: never
 	}
-	'/api/license/dev/invalidateTest': {
-		parameters: {
-			query?: never
-			header?: never
-			path?: never
-			cookie?: never
-		}
-		get?: never
-		put?: never
-		/** Invalidate the current test license */
-		post: operations['invalidateTestLicense']
-		delete?: never
-		options?: never
-		head?: never
-		patch?: never
-		trace?: never
-	}
-	'/api/license/dev/resetTest': {
-		parameters: {
-			query?: never
-			header?: never
-			path?: never
-			cookie?: never
-		}
-		get?: never
-		put?: never
-		/** Reset the first started date for the test license (Reactivate test mode) */
-		post: operations['reactivateTestMode']
-		delete?: never
-		options?: never
-		head?: never
-		patch?: never
-		trace?: never
-	}
 	'/api/license/fetch': {
 		parameters: {
 			query?: never
@@ -984,23 +950,6 @@ export interface paths {
 		put?: never
 		/** Fetch the license from the business backend */
 		post: operations['fetchLicense']
-		delete?: never
-		options?: never
-		head?: never
-		patch?: never
-		trace?: never
-	}
-	'/api/license/hardwareIdentifier': {
-		parameters: {
-			query?: never
-			header?: never
-			path?: never
-			cookie?: never
-		}
-		/** Get the hardware identifier of this system */
-		get: operations['getHardwareIdentifier']
-		put?: never
-		post?: never
 		delete?: never
 		options?: never
 		head?: never
@@ -4144,42 +4093,6 @@ export interface operations {
 		responses: {
 			/** @description Returns the license file */
 			200: {
-				headers: {
-					[name: string]: unknown
-				}
-				content?: never
-			}
-		}
-	}
-	invalidateTestLicense: {
-		parameters: {
-			query?: never
-			header?: never
-			path?: never
-			cookie?: never
-		}
-		requestBody?: never
-		responses: {
-			/** @description Created */
-			201: {
-				headers: {
-					[name: string]: unknown
-				}
-				content?: never
-			}
-		}
-	}
-	reactivateTestMode: {
-		parameters: {
-			query?: never
-			header?: never
-			path?: never
-			cookie?: never
-		}
-		requestBody?: never
-		responses: {
-			/** @description Created */
-			201: {
 				headers: {
 					[name: string]: unknown
 				}

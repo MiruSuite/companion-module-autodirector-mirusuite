@@ -241,6 +241,12 @@ export default class Backend {
 		})
 	}
 
+	/**
+	 * Increment or decrement the target head height associated with a shot size.
+	 * @param shotSize Shot size to update
+	 * @param increment If true, increase the head height, if false, decrease it by step
+	 * @param step The amount to increase/decrease
+	 */
 	async updateTargetShotSizeConfig(shotSize: ShotSize, increment: boolean, step: number): Promise<void> {
 		const response = await this.client.GET('/api/config/shotsize')
 		if (response.data !== undefined) {
@@ -251,7 +257,7 @@ export default class Backend {
 				size -= step
 			}
 			size = Math.max(0, Math.min(1, size))
-			this.self.log('info', 'Sending request with: ' + shotSize + ' and ' + size)
+			this.self.log('debug', 'Updating shot size ' + shotSize + ' to ' + size)
 
 			await this.client.POST('/api/config/shotsize', {
 				params: {
@@ -302,8 +308,8 @@ export default class Backend {
 		if (settings === null || settings === undefined) {
 			return
 		}
-		const x = Math.max(-1, Math.min(1, (settings.target?.x ?? 0.5) + deltaX))
-		const y = Math.max(-1, Math.min(1, (settings.target?.y ?? 0.5) + deltaY))
+		const x = Math.max(0, Math.min(1, (settings.target?.x ?? 0.5) + deltaX))
+		const y = Math.max(0, Math.min(1, (settings.target?.y ?? 0.5) + deltaY))
 		await this.client.PUT('/api/devices/{id}', {
 			params: { path: { id: device.id ?? -1 } },
 			body: {
